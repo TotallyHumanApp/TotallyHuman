@@ -1,0 +1,134 @@
+<UserControl x:Class="TotallyHuman.Views.AnalysisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:util="clr-namespace:TotallyHuman.Utilities"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             Background="{StaticResource BgBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28,24">
+        <StackPanel MaxWidth="920" HorizontalAlignment="Left">
+
+            <!-- Kopf -->
+            <TextBlock Style="{StaticResource H1}"
+                       Text="{Binding [analysis.title], Source={x:Static util:LocProxy.Instance}}" />
+            <TextBlock Style="{StaticResource Muted}" Margin="0,4,0,20"
+                       Text="{Binding [analysis.subtitle], Source={x:Static util:LocProxy.Instance}}" />
+
+            <!-- Drop-Zone -->
+            <Border x:Name="DropZone" Style="{StaticResource OrangeCard}" AllowDrop="True"
+                    Drop="DropZone_Drop" DragOver="DropZone_DragOver" MinHeight="150"
+                    Cursor="Hand" MouseLeftButtonUp="DropZone_Click">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="🎵" FontSize="34" HorizontalAlignment="Center" />
+                    <TextBlock Style="{StaticResource H2}" HorizontalAlignment="Center" Margin="0,8,0,2"
+                               Text="{Binding [analysis.drop.title], Source={x:Static util:LocProxy.Instance}}" />
+                    <TextBlock Style="{StaticResource Muted}" TextAlignment="Center" MaxWidth="480"
+                               Text="{Binding [analysis.drop.subtitle], Source={x:Static util:LocProxy.Instance}}" />
+                    <Button x:Name="ChooseBtn" Margin="0,14,0,0" HorizontalAlignment="Center"
+                            Click="ChooseBtn_Click"
+                            Content="{Binding [analysis.openfile], Source={x:Static util:LocProxy.Instance}}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Kein Ergebnis -->
+            <Border Style="{StaticResource Card}" Margin="0,18,0,0"
+                    Visibility="{Binding CurrentAnalysisResult, Converter={StaticResource NullToVis}, ConverterParameter=invert}">
+                <TextBlock Style="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,20"
+                           Text="{Binding [analysis.noresult], Source={x:Static util:LocProxy.Instance}}" />
+            </Border>
+
+            <!-- Ergebnis -->
+            <StackPanel Visibility="{Binding CurrentAnalysisResult, Converter={StaticResource NullToVis}}"
+                        Margin="0,18,0,0">
+
+                <!-- Verdikt -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="6" Padding="10,4"
+                                    Background="{Binding CurrentAnalysisResult.Empfehlung, Converter={StaticResource EmpfehlungToBrush}}">
+                                <TextBlock Foreground="#FF101010" FontWeight="Bold" FontSize="13"
+                                           Text="{Binding CurrentAnalysisResult.Einstufung}" />
+                            </Border>
+                            <TextBlock VerticalAlignment="Center" Margin="12,0,0,0" Style="{StaticResource Muted}"
+                                       Text="{Binding CurrentAnalysisResult.DateiName}" />
+                        </StackPanel>
+
+                        <!-- Metriken -->
+                        <UniformGrid Columns="3" Margin="0,16,0,0">
+                            <StackPanel Margin="0,0,10,0">
+                                <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                                           Text="{Binding [analysis.metric.probability], Source={x:Static util:LocProxy.Instance}}" />
+                                <TextBlock Foreground="{StaticResource OrangeBrush}" FontSize="24" FontWeight="Bold"
+                                           Text="{Binding CurrentAnalysisResult.KiWahrscheinlichkeitProzent, StringFormat={}{0:F1} %}" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,10,0">
+                                <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                                           Text="{Binding [analysis.metric.artefact], Source={x:Static util:LocProxy.Instance}}" />
+                                <TextBlock Foreground="{StaticResource TextBrush}" FontSize="24" FontWeight="Bold"
+                                           Text="{Binding CurrentAnalysisResult.ArtefaktScore, StringFormat={}{0:F2}}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                                           Text="{Binding [analysis.metric.confidence], Source={x:Static util:LocProxy.Instance}}" />
+                                <TextBlock Foreground="{StaticResource TextBrush}" FontSize="24" FontWeight="Bold"
+                                           Text="{Binding CurrentAnalysisResult.KonfidenzText}" />
+                            </StackPanel>
+                        </UniformGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Hinweise -->
+                <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource H2}"
+                                   Text="{Binding [analysis.hints], Source={x:Static util:LocProxy.Instance}}" />
+                        <ItemsControl Margin="0,8,0,0" ItemsSource="{Binding CurrentAnalysisResult.Hinweise}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,3">
+                                        <TextBlock Text="•" Foreground="{StaticResource OrangeBrush}" Margin="0,0,8,0" />
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="800" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Details -->
+                <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource H2}"
+                                   Text="{Binding [analysis.details], Source={x:Static util:LocProxy.Instance}}" />
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Muted}" Margin="0,3,20,3"
+                                       Text="{Binding [analysis.classification], Source={x:Static util:LocProxy.Instance}}" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,3" Text="{Binding CurrentAnalysisResult.Einstufung}" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Muted}" Margin="0,3,20,3"
+                                       Text="Peaks" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,3" Text="{Binding CurrentAnalysisResult.AnzahlPeaks}" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource Muted}" Margin="0,3,20,3"
+                                       Text="{Binding [analysis.mode], Source={x:Static util:LocProxy.Instance}}" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,3" Text="{Binding CurrentAnalysisResult.Modus}" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Muted}" Margin="0,3,20,3"
+                                       Text="{Binding [analysis.date], Source={x:Static util:LocProxy.Instance}}" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,3"
+                                       Text="{Binding CurrentAnalysisResult.AnalyseDatum, StringFormat={}{0:dd.MM.yyyy HH:mm}}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

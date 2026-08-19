@@ -1,0 +1,79 @@
+<UserControl x:Class="TotallyHuman.Views.BatchAnalysisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:util="clr-namespace:TotallyHuman.Utilities"
+             Background="{StaticResource BgBrush}">
+
+    <Grid Margin="28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Kopf -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Style="{StaticResource H1}"
+                       Text="{Binding [batch.title], Source={x:Static util:LocProxy.Instance}}" />
+            <TextBlock Style="{StaticResource Muted}" Margin="0,4,0,0"
+                       Text="{Binding [batch.subtitle], Source={x:Static util:LocProxy.Instance}}" />
+        </StackPanel>
+
+        <!-- Aktionen -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,0">
+            <Button Click="Choose_Click"
+                    Content="{Binding [batch.choose], Source={x:Static util:LocProxy.Instance}}" />
+            <Button Style="{StaticResource SecondaryButton}" Margin="10,0,0,0" Click="Clear_Click"
+                    Content="{Binding [batch.clear], Source={x:Static util:LocProxy.Instance}}" />
+        </StackPanel>
+
+        <!-- Zusammenfassung -->
+        <UniformGrid Grid.Row="2" Columns="3" Margin="0,16,0,0">
+            <Border Style="{StaticResource Card}" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                               Text="{Binding [batch.summary.total], Source={x:Static util:LocProxy.Instance}}" />
+                    <TextBlock Foreground="{StaticResource OrangeBrush}" FontSize="24" FontWeight="Bold"
+                               Text="{Binding BatchResults.Count}" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Margin="4,0">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                               Text="{Binding [batch.summary.ki], Source={x:Static util:LocProxy.Instance}}" />
+                    <TextBlock x:Name="KiCount" Foreground="{StaticResource RedBrush}" FontSize="24" FontWeight="Bold" Text="0" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Margin="8,0,0,0">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                               Text="{Binding [batch.summary.human], Source={x:Static util:LocProxy.Instance}}" />
+                    <TextBlock x:Name="HumanCount" Foreground="{StaticResource GreenBrush}" FontSize="24" FontWeight="Bold" Text="0" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Tabelle -->
+        <Border Grid.Row="3" Style="{StaticResource Card}" Margin="0,16,0,0" Padding="0">
+            <Grid>
+                <DataGrid x:Name="Grid" ItemsSource="{Binding BatchResults}" Background="Transparent" BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="2*" Binding="{Binding DateiName}"
+                                            Header="{Binding [batch.col.file], Source={x:Static util:LocProxy.Instance}}" />
+                        <DataGridTextColumn Width="1.5*" Binding="{Binding Einstufung}"
+                                            Header="{Binding [batch.col.result], Source={x:Static util:LocProxy.Instance}}" />
+                        <DataGridTextColumn Width="*" Binding="{Binding KiWahrscheinlichkeitProzent, StringFormat={}{0:F1} %}"
+                                            Header="{Binding [batch.col.probability], Source={x:Static util:LocProxy.Instance}}" />
+                        <DataGridTextColumn Width="*" Binding="{Binding KonfidenzText}"
+                                            Header="{Binding [batch.col.confidence], Source={x:Static util:LocProxy.Instance}}" />
+                        <DataGridTextColumn Width="*" Binding="{Binding Modus}"
+                                            Header="{Binding [batch.col.mode], Source={x:Static util:LocProxy.Instance}}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock x:Name="EmptyHint" Style="{StaticResource Muted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="{Binding [batch.empty], Source={x:Static util:LocProxy.Instance}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

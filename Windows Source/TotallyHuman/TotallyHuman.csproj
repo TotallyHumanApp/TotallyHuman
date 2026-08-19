@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>TotallyHuman</AssemblyName>
+    <RootNamespace>TotallyHuman</RootNamespace>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>TotallyHuman</Product>
+    <Description>KI-Musik-Detektor / AI Music Detector — Windows Port</Description>
+    <!-- Self-contained single-file publishing defaults (used by dotnet publish / CI) -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <!-- Keep the SDK from failing restore for non-publish (Debug build) scenarios -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- Erlaubt Restore/Build/Compile-Prüfung eines Windows-Ziels auch auf Nicht-Windows-Hosts -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\model_seed.json" />
+    <EmbeddedResource Include="Resources\training_seed.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

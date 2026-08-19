@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+*.swp
+*.swo
+
+# Abacus intern
+.abacus.donotdelete
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcuserstate
+
+# .NET / Visual Studio
+bin/
+obj/
+publish/
+*.user
+*.suo
+.vs/
+_ReSharper*/
+*.userprefs
+
+# Build-Ausgaben
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+win-x64/
+
+# Rider
+.idea/
+
+# OS
+Thumbs.db

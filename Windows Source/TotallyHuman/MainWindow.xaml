@@ -1,0 +1,72 @@
+<Window x:Class="TotallyHuman.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:util="clr-namespace:TotallyHuman.Utilities"
+        Title="Totally Human"
+        Height="760" Width="1160"
+        MinHeight="600" MinWidth="960"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BgBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== Navigations-Sidebar ===== -->
+        <Border Grid.Column="0" Background="#FF0A0A0A" BorderBrush="#22FFFFFF" BorderThickness="0,0,1,0">
+            <DockPanel LastChildFill="True">
+                <!-- Logo / Titel -->
+                <StackPanel DockPanel.Dock="Top" Margin="18,22,18,18">
+                    <TextBlock Text="TOTALLY HUMAN" FontSize="17" FontWeight="Bold"
+                               Foreground="{StaticResource OrangeBrush}" />
+                    <TextBlock Style="{StaticResource Muted}" FontSize="11"
+                               Text="{Binding [app.title], Source={x:Static util:LocProxy.Instance}}" />
+                </StackPanel>
+
+                <!-- Statuszeile unten -->
+                <Border DockPanel.Dock="Bottom" Background="#FF0A0A0A" Padding="16,10">
+                    <StackPanel>
+                        <ProgressBar Height="4" IsIndeterminate="True" Margin="0,0,0,6"
+                                     Foreground="{StaticResource OrangeBrush}"
+                                     Background="#22FFFFFF" BorderThickness="0"
+                                     Visibility="{Binding IstBeschaeftigt, Converter={StaticResource BoolToVis}}" />
+                        <TextBlock Text="{Binding StatusText}" Style="{StaticResource Muted}"
+                                   FontSize="10.5" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Nav-Buttons -->
+                <StackPanel x:Name="NavPanel" Margin="10,4">
+                    <TextBlock Text="{Binding [nav.section.analysis], Source={x:Static util:LocProxy.Instance}}"
+                               Style="{StaticResource Muted}" Margin="10,8,0,4" FontSize="10.5" />
+                    <RadioButton x:Name="NavAnalyse" GroupName="nav" Style="{StaticResource NavItem}"
+                                 Tag="Analyse" IsChecked="True"
+                                 Content="{Binding [nav.analyse], Source={x:Static util:LocProxy.Instance}}" />
+                    <RadioButton x:Name="NavBatch" GroupName="nav" Style="{StaticResource NavItem}"
+                                 Tag="Batch"
+                                 Content="{Binding [nav.batch], Source={x:Static util:LocProxy.Instance}}" />
+
+                    <TextBlock Text="{Binding [nav.section.model], Source={x:Static util:LocProxy.Instance}}"
+                               Style="{StaticResource Muted}" Margin="10,14,0,4" FontSize="10.5" />
+                    <RadioButton x:Name="NavTraining" GroupName="nav" Style="{StaticResource NavItem}"
+                                 Tag="Training"
+                                 Content="{Binding [nav.training], Source={x:Static util:LocProxy.Instance}}" />
+                    <RadioButton x:Name="NavViz" GroupName="nav" Style="{StaticResource NavItem}"
+                                 Tag="Visualisierung"
+                                 Content="{Binding [nav.visualisierung], Source={x:Static util:LocProxy.Instance}}" />
+
+                    <TextBlock Text="{Binding [nav.section.info], Source={x:Static util:LocProxy.Instance}}"
+                               Style="{StaticResource Muted}" Margin="10,14,0,4" FontSize="10.5" />
+                    <RadioButton x:Name="NavSettings" GroupName="nav" Style="{StaticResource NavItem}"
+                                 Tag="Einstellungen"
+                                 Content="{Binding [nav.einstellungen], Source={x:Static util:LocProxy.Instance}}" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- ===== Inhaltsbereich ===== -->
+        <ContentControl x:Name="ContentHost" Grid.Column="1" />
+    </Grid>
+</Window>
