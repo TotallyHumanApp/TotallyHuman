@@ -44,6 +44,50 @@ Recommended thresholds: **AI ≥ 0.6** · **human ≤ 0.4** · otherwise manual 
 
 ---
 
+## Training & Continuous Learning
+
+The app ships with a **pre-trained base model** (seed data: 148 labeled examples) so it works out of the box. This base is only a starting point — it is **not** a finished, all-knowing detector. The real strength of Totally Human is that you can **train it yourself** and continuously improve it.
+
+### How it works
+
+- **Add your own examples** — feed the app real (human-made) music and complete AI-generated music as labeled training examples.
+- **Retrain the model** — after adding examples, retrain the model so it learns the acoustic patterns of *your* music collection and the AI generators you care about.
+- **Import seed data** — re-import the bundled seed data at any time to restore or extend the base.
+- **Incremental learning** — the training database is expanded with every training session. The more diverse and representative the examples you add, the more accurate the detector becomes over time.
+
+### Why training matters
+
+No single pre-trained model can know every AI generator, every genre, and every production style. AI music tools evolve constantly, and new generators appear regularly. By training the app on your own data, you:
+
+- **Adapt it to your use case** — your genres, your sources, your quality standards.
+- **Keep it current** — teach it to recognize new AI generators as they appear.
+- **Improve accuracy** — the model gets better with every training session, because it learns from real, labeled examples rather than relying on a fixed base.
+
+### What to use for training
+
+For the best results, use **real, human-made music** and **complete, unmodified AI-generated tracks** as your labeled examples:
+
+- **Real music** — tracks you know are human-made, ideally covering the genres you want to analyze.
+- **AI-generated music** — complete AI-generated tracks (not fragments), ideally from the generators you want to detect.
+
+The clearer and more consistent your labels are, the more reliable the trained model becomes.
+
+### Privacy & data handling
+
+All training happens **locally on your device**. Training data, the trained model, and settings are stored only in your local user data directory (see below). The app does **not** upload, share, or collect your training data or your audio files.
+
+### Legal note on training data
+
+You are responsible for the audio you use for training. Please only use content you are **legally entitled to use**:
+
+- **Your own music** — tracks you created or own.
+- **Properly licensed content** — music you have a license or permission to use for this purpose.
+- **Freely available content** — music released under a license that permits use (e.g. Creative Commons, public domain).
+
+Training is a **local, private process**: the app analyzes the audio on your machine and stores only the derived model locally. It does not redistribute, publish, or share the audio or the trained model. However, using copyrighted music without permission — even for private analysis — may still be restricted by the rights holder, so always make sure you have the necessary rights before adding content to the training set.
+
+---
+
 ## System Requirements
 
 ### macOS
@@ -63,7 +107,7 @@ Training data, the trained model, and settings are stored locally:
 - **macOS:** `~/Library/Application Support/TotallyHuman/`
 - **Windows:** `%APPDATA%\TotallyHuman\`
 
-On first launch, embedded seed data (`model_seed.json`, `training_seed.json`, 148 examples) is automatically imported. The training database is expanded incrementally with each training session.
+On first launch, embedded seed data (`model_seed.json`, `training_seed.json`, 148 examples) is automatically imported. The training database is expanded incrementally with each training session — this is the base model described in [Training & Continuous Learning](#training--continuous-learning).
 
 ---
 
