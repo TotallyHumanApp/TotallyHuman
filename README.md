@@ -1,116 +1,116 @@
 # Totally Human — AI Music Detector
 
-**Totally Human** ist eine native Desktop-App zur Erkennung von KI-generierter Musik. Sie analysiert Audiodateien auf spektrale Artefakte und statistische Auffälligkeiten, die typisch für synthetisch erzeugte Musik sind, und gibt das Ergebnis als prozentuale Schätzung aus: Wie viel der analysierten Musik ist vermutlich KI-generiert, wie viel menschlich?
+**Totally Human** is a native desktop app for detecting AI-generated music. It analyzes audio files for spectral artifacts and statistical anomalies that are typical of synthetically produced music, and returns the result as a percentage estimate: how much of the analyzed music is likely AI-generated versus human-made.
 
-Die App ist **zweisprachig** (Deutsch / Englisch) und die Sprache lässt sich jederzeit in den Einstellungen umschalten — die Oberfläche wechselt sofort (live) und die Auswahl wird für den nächsten Start gespeichert.
+The app is **bilingual** (German / English) and the language can be switched at any time in the settings — the interface changes immediately (live) and the selection is saved for the next launch.
 
 ---
 
-## Plattformen
+## Platforms
 
-Dieses Repository enthält den Quellcode für **beide** Plattformen sowie die bereits **kompilierten, gebauten Versionen** der App:
+This repository contains the source code for **both** platforms. The compiled, ready-to-run builds of the app are published as **GitHub Releases** (see the [Releases](https://github.com/TotallyHumanApp/TotallyHuman/releases) page).
 
-| Plattform | Quellcode | Kompilierter Build |
-|-----------|-----------|--------------------|
-| **macOS** | `macOS Source/` | `Totally Human.app` |
-| **Windows** | `Windows Source/` | `Totally Human.exe` |
+| Platform | Source code | Compiled build |
+|----------|-------------|----------------|
+| **macOS** | `macOS Source/` | `Totally Human.app` (in Releases) |
+| **Windows** | `Windows Source/` | `Totally Human.exe` (in Releases) |
 
-> Die Dateien `Totally Human.app` und `Totally Human.exe` sind bereits gebaute, lauffähige Versionen der App — kein Build erforderlich.
+> The `Totally Human.app` and `Totally Human.exe` files are already compiled, runnable versions of the app — no build required. Download them from the Releases page.
 
 ---
 
 ## Features
 
-- **Datei-Analyse** — Einzeldatei-Analyse per Drag & Drop oder Dateiauswahl. Zeigt KI-Wahrscheinlichkeit, Artefakt-Score, Konfidenz, Klassifikation und Zusatzinformationen.
-- **Batch-Analyse** — Mehrere Dateien gleichzeitig; tabellarische Ergebnisse und eine Zusammenfassung (KI / menschlich).
-- **Training** — Eigene Beispiele hinzufügen (echte und KI-generierte Musik), Modell neu trainieren und Seed-Daten importieren. Alle Daten werden lokal gespeichert.
-- **Visualisierung** — Spektrum, Baseline und Fingerprint als Diagramme sowie Segment-Stärken.
-- **Einstellungen** — Sprache, Theme, Qualitätsschwelle, Segmentlänge, Speicherordner und Seed-Re-Import.
+- **File Analysis** — Single-file analysis via drag & drop or file selection. Shows AI probability, artifact score, confidence, classification, and additional information.
+- **Batch Analysis** — Multiple files at once; tabular results and a summary (AI / human).
+- **Training** — Add your own examples (real and AI-generated music), retrain the model, and import seed data. All data is stored locally.
+- **Visualization** — Spectrum, baseline, and fingerprint displayed as charts, along with segment strengths.
+- **Settings** — Language, theme, quality threshold, segment length, storage folder, and seed re-import.
 
 ---
 
-## Algorithmus
+## Algorithm
 
-Die App erkennt KI-generierte Musik anhand mehrerer Verfahren:
+The app detects AI-generated music using several methods:
 
-- **Fourier-Artefakt-Analyse** — regelmäßige Peaks zwischen 5–16 kHz
-- **Self-Similarity-Matrix** (MFCC-basiert)
-- **Splice-Erkennung** — zeitliche Inkonsistenzen
-- **Obfuscation-Erkennung**
+- **Fourier artifact analysis** — regular peaks between 5–16 kHz
+- **Self-similarity matrix** (MFCC-based)
+- **Splice detection** — temporal inconsistencies
+- **Obfuscation detection**
 
-Das Ergebnis wird als **Prozentsatz** angezeigt und schätzt, wie viel der analysierten Musik KI-generiert gegenüber menschlich erstellt ist.
+The result is displayed as a **percentage**, estimating how much of the analyzed music is AI-generated versus human-made.
 
-Empfohlene Schwellenwerte: **KI ≥ 0,6** · **menschlich ≤ 0,4** · sonst manuelle Prüfung.
+Recommended thresholds: **AI ≥ 0.6** · **human ≤ 0.4** · otherwise manual review.
 
 ---
 
-## Systemanforderungen
+## System Requirements
 
 ### macOS
-- macOS 13.0 (Ventura) oder neuer
-- Xcode 15+ (nur zum Bauen aus dem Quellcode)
+- macOS 13.0 (Ventura) or later
+- Xcode 15+ (only required to build from source)
 
 ### Windows
-- Windows 10/11 (64-Bit)
-- Keine separate .NET-Installation nötig — die EXE ist selbstständig (das .NET-Runtime ist eingebettet) und läuft per Doppelklick.
+- Windows 10/11 (64-bit)
+- No separate .NET installation required — the EXE is self-contained (the .NET runtime is embedded) and runs with a double-click.
 
 ---
 
-## Benutzerdaten
+## User Data
 
-Trainingsdaten, das trainierte Modell und Einstellungen werden lokal gespeichert:
+Training data, the trained model, and settings are stored locally:
 
 - **macOS:** `~/Library/Application Support/TotallyHuman/`
 - **Windows:** `%APPDATA%\TotallyHuman\`
 
-Beim ersten Start werden eingebettete Seed-Daten (`model_seed.json`, `training_seed.json`, 148 Beispiele) automatisch importiert. Die Trainingsdatenbank wird mit jeder Trainingssitzung inkrementell erweitert.
+On first launch, embedded seed data (`model_seed.json`, `training_seed.json`, 148 examples) is automatically imported. The training database is expanded incrementally with each training session.
 
 ---
 
 ## Build
 
-### macOS (aus dem Quellcode)
-1. `TotallyHuman.xcodeproj` in Xcode öffnen
-2. Signing: eigenes Team wählen oder „Sign to Run Locally“
-3. `Cmd+R` zum Ausführen
+### macOS (from source)
+1. Open `TotallyHuman.xcodeproj` in Xcode
+2. Signing: select your Team or use "Sign to Run Locally"
+3. Press `Cmd+R` to run the app
 
-### Windows (aus dem Quellcode)
-**Option A — Automatisch via GitHub Actions (empfohlen):** Das Repository enthält den Workflow `.github/workflows/build.yml`. Bei jedem Push auf `main`/`master` (oder manuell über Actions → Build Windows EXE → Run workflow) baut ein `windows-latest`-Runner die portable EXE und stellt sie als Artefakt `TotallyHuman-Windows` bereit.
+### Windows (from source)
+**Option A — Automatically via GitHub Actions (recommended):** The repository contains the workflow `.github/workflows/build.yml`. On every push to `main`/`master` (or manually via Actions → Build Windows EXE → Run workflow), a `windows-latest` runner builds the portable EXE and makes it available as the artifact `TotallyHuman-Windows`.
 
-**Option B — Lokal auf Windows:** Erfordert das .NET 8 SDK.
+**Option B — Locally on Windows:** Requires the .NET 8 SDK.
 
 ```bash
 dotnet publish TotallyHuman/TotallyHuman.csproj -c Release -r win-x64 --self-contained true \
   -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -o publish
 ```
 
-Ergebnis: `publish\TotallyHuman.exe` (portabel, keine Installation nötig).
+Result: `publish\TotallyHuman.exe` (portable, no installation required).
 
-> **Hinweis:** WPF ist Windows-spezifisch. `dotnet build`/`publish` funktioniert nur unter Windows (oder auf dem GitHub-Actions-`windows-latest`-Runner). Unter Linux/macOS kann der C#-Code geprüft, aber keine lauffähige EXE erzeugt werden.
+> **Note:** WPF is Windows-specific. `dotnet build`/`publish` only works on Windows (or on the GitHub Actions `windows-latest` runner). On Linux/macOS the C# code can be checked, but a working EXE cannot be produced.
 
 ---
 
-## Technologie
+## Technology
 
 - **macOS:** Swift / SwiftUI, Apple vDSP (FFT)
-- **Windows:** .NET 8 / WPF (`net8.0-windows`), MVVM-Architektur mit `AppState` als beobachtbarem Zustand
-  - **NAudio + NAudio.Vorbis** für Audio-Dekodierung (MP3, WAV, AIFF, M4A, FLAC, OGG, OPUS, WMA, ALAC → Mono, 44,1 kHz, normalisiert)
-  - **OxyPlot.Wpf** für Diagramme
-  - Manuelle Radix-2-FFT (ersetzt Apple vDSP), Ensemble mit FFT-Größen 2048/4096/8192
+- **Windows:** .NET 8 / WPF (`net8.0-windows`), MVVM-style architecture with `AppState` as observable state
+  - **NAudio + NAudio.Vorbis** for audio decoding (MP3, WAV, AIFF, M4A, FLAC, OGG, OPUS, WMA, ALAC → Mono, 44.1 kHz, normalized)
+  - **OxyPlot.Wpf** for charts
+  - Manual radix-2 FFT (replacing Apple's vDSP), ensemble using FFT sizes 2048/4096/8192
 
 ---
 
 ## Support & Links
 
-Wenn dir das Projekt gefällt und du seine Entwicklung unterstützen möchtest:
+If you like the project and want to support its development:
 
-- **Projekt unterstützen:** https://ko-fi.com/totallyhumanapp/
+- **Support the project:** https://ko-fi.com/totallyhumanapp/
 - **GitHub:** https://github.com/TotallyHumanApp/
 - **Instagram:** https://www.instagram.com/totallyhumanapp/
-- **Kontakt:** totallyhumanapp@gmail.com
+- **Contact:** totallyhumanapp@gmail.com
 
 ---
 
-## Lizenz
+## License
 
-Alle Rechte verbleiben beim Autor. Dieses Repository wird ohne Lizenz bereitgestellt — die Nutzung, Vervielfältigung und Weiterverbreitung des Codes ist ohne ausdrückliche Genehmigung nicht gestattet.
+All rights remain with the author. This repository is provided without a license — the use, reproduction, and redistribution of the code is not permitted without explicit permission.
